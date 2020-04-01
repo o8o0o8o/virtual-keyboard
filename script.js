@@ -25,15 +25,9 @@ function renderKeyboard(toggleLang, shift) {
   let cent = 'central';
   let lang = 'eng';
   if (getLang(toggleLang)) {
-<<<<<<< HEAD
     lang = 'eng';
   } else {
     lang = 'rus';
-=======
-    lang = "eng";
-  } else {
-    lang = "rus";
->>>>>>> d69511793b5691513e4104e5bd500c330ab7db75
   }
   if (isItShifted(shift)) {
     cent = 'secondary';
@@ -293,7 +287,6 @@ function keysGen() {
       weight: 1
     },
     KeyW: {
-<<<<<<< HEAD
       eng: { central: 'w', secondary: 'W' },
       rus: { central: 'ц', secondary: 'Ц' },
       weight: 1
@@ -346,60 +339,6 @@ function keysGen() {
     BracketRight: {
       eng: { central: ']', secondary: '}' },
       rus: { central: 'ъ', secondary: 'Ъ' },
-=======
-      eng: { central: "w", secondary: "W" },
-      rus: { central: "ц", secondary: "Ц" },
-      weight: 1
-    },
-    KeyE: {
-      eng: { central: "e", secondary: "E" },
-      rus: { central: "у", secondary: "У" },
-      weight: 1
-    },
-    KeyR: {
-      eng: { central: "r", secondary: "R" },
-      rus: { central: "к", secondary: "К" },
-      weight: 1
-    },
-    KeyT: {
-      eng: { central: "t", secondary: "T" },
-      rus: { central: "е", secondary: "Е" },
-      weight: 1
-    },
-    KeyY: {
-      eng: { central: "y", secondary: "Y" },
-      rus: { central: "н", secondary: "Н" },
-      weight: 1
-    },
-    KeyU: {
-      eng: { central: "u", secondary: "U" },
-      rus: { central: "г", secondary: "Г" },
-      weight: 1
-    },
-    KeyI: {
-      eng: { central: "i", secondary: "I" },
-      rus: { central: "ш", secondary: "Ш" },
-      weight: 1
-    },
-    KeyO: {
-      eng: { central: "o", secondary: "O" },
-      rus: { central: "щ", secondary: "Щ" },
-      weight: 1
-    },
-    KeyP: {
-      eng: { central: "p", secondary: "P" },
-      rus: { central: "з", secondary: "З" },
-      weight: 1
-    },
-    BracketLeft: {
-      eng: { central: "[", secondary: "{" },
-      rus: { central: "х", secondary: "Х" },
-      weight: 1
-    },
-    BracketRight: {
-      eng: { central: "]", secondary: "}" },
-      rus: { central: "ъ", secondary: "Ъ" },
->>>>>>> d69511793b5691513e4104e5bd500c330ab7db75
       weight: 1
     },
     Backslash: {
@@ -418,7 +357,6 @@ function keysGen() {
       weight: 2.3
     },
     KeyA: {
-<<<<<<< HEAD
       eng: { central: 'a', secondary: 'A' },
       rus: { central: 'ф', secondary: 'Ф' },
       weight: 1
@@ -466,64 +404,11 @@ function keysGen() {
     Semicolon: {
       eng: { central: ';', secondary: ':' },
       rus: { central: 'ж', secondary: 'Ж' },
-=======
-      eng: { central: "a", secondary: "A" },
-      rus: { central: "ф", secondary: "Ф" },
-      weight: 1
-    },
-    KeyS: {
-      eng: { central: "s", secondary: "S" },
-      rus: { central: "ы", secondary: "Ы" },
-      weight: 1
-    },
-    KeyD: {
-      eng: { central: "d", secondary: "D" },
-      rus: { central: "в", secondary: "В" },
-      weight: 1
-    },
-    KeyF: {
-      eng: { central: "f", secondary: "F" },
-      rus: { central: "а", secondary: "А" },
-      weight: 1
-    },
-    KeyG: {
-      eng: { central: "g", secondary: "G" },
-      rus: { central: "п", secondary: "П" },
-      weight: 1
-    },
-    KeyH: {
-      eng: { central: "h", secondary: "H" },
-      rus: { central: "р", secondary: "Р" },
-      weight: 1
-    },
-    KeyJ: {
-      eng: { central: "j", secondary: "J" },
-      rus: { central: "о", secondary: "О" },
-      weight: 1
-    },
-    KeyK: {
-      eng: { central: "k", secondary: "K" },
-      rus: { central: "л", secondary: "Л" },
-      weight: 1
-    },
-    KeyL: {
-      eng: { central: "l", secondary: "L" },
-      rus: { central: "д", secondary: "Д" },
-      weight: 1
-    },
-    Semicolon: {
-      eng: { central: ";", secondary: ":" },
-      rus: { central: "ж", secondary: "Ж" },
->>>>>>> d69511793b5691513e4104e5bd500c330ab7db75
       weight: 1
     },
     Quote: {
       eng: { central: "'", secondary: '"' },
-<<<<<<< HEAD
       rus: { central: 'э', secondary: 'Э' },
-=======
-      rus: { central: "э", secondary: "Э" },
->>>>>>> d69511793b5691513e4104e5bd500c330ab7db75
       weight: 1
     },
     Enter: {
@@ -537,7 +422,6 @@ function keysGen() {
       weight: 2.3
     },
     KeyZ: {
-<<<<<<< HEAD
       eng: { central: 'z', secondary: 'Z' },
       rus: { central: 'я', secondary: 'Я' },
       weight: 1
@@ -580,50 +464,6 @@ function keysGen() {
     Period: {
       eng: { central: '.', secondary: '>' },
       rus: { central: 'ю', secondary: 'Ю' },
-=======
-      eng: { central: "z", secondary: "Z" },
-      rus: { central: "я", secondary: "Я" },
-      weight: 1
-    },
-    KeyX: {
-      eng: { central: "x", secondary: "X" },
-      rus: { central: "ч", secondary: "Ч" },
-      weight: 1
-    },
-    KeyC: {
-      eng: { central: "c", secondary: "C" },
-      rus: { central: "с", secondary: "С" },
-      weight: 1
-    },
-    KeyV: {
-      eng: { central: "v", secondary: "V" },
-      rus: { central: "м", secondary: "М" },
-      weight: 1
-    },
-    KeyB: {
-      eng: { central: "b", secondary: "B" },
-      rus: { central: "и", secondary: "И" },
-      weight: 1
-    },
-    KeyN: {
-      eng: { central: "n", secondary: "N" },
-      rus: { central: "т", secondary: "Т" },
-      weight: 1
-    },
-    KeyM: {
-      eng: { central: "m", secondary: "M" },
-      rus: { central: "ь", secondary: "Ь" },
-      weight: 1
-    },
-    Comma: {
-      eng: { central: ",", secondary: "<" },
-      rus: { central: "б", secondary: "Б" },
-      weight: 1
-    },
-    Period: {
-      eng: { central: ".", secondary: ">" },
-      rus: { central: "ю", secondary: "Ю" },
->>>>>>> d69511793b5691513e4104e5bd500c330ab7db75
       weight: 1
     },
     Slash: {
@@ -690,21 +530,12 @@ function keysGen() {
 }
 
 function isItShifted(toggle) {
-<<<<<<< HEAD
   let shift = localStorage.getItem('shift');
   switch (shift) {
     case 'false':
       shift = false;
       break;
     case 'true':
-=======
-  let shift = localStorage.getItem("shift");
-  switch (shift) {
-    case "false":
-      shift = false;
-      break;
-    case "true":
->>>>>>> d69511793b5691513e4104e5bd500c330ab7db75
       shift = true;
       break;
     case null:
@@ -712,37 +543,21 @@ function isItShifted(toggle) {
       break;
   }
   if (toggle) {
-<<<<<<< HEAD
     localStorage.setItem('shift', !shift);
     return !shift;
   } else {
     localStorage.setItem('shift', shift);
-=======
-    localStorage.setItem("shift", !shift);
-    return !shift;
-  } else {
-    localStorage.setItem("shift", shift);
->>>>>>> d69511793b5691513e4104e5bd500c330ab7db75
     return shift;
   }
 }
 
 function getLang(toggle) {
-<<<<<<< HEAD
   let state = localStorage.getItem('state');
   switch (state) {
     case 'false':
       state = false;
       break;
     case 'true':
-=======
-  let state = localStorage.getItem("state");
-  switch (state) {
-    case "false":
-      state = false;
-      break;
-    case "true":
->>>>>>> d69511793b5691513e4104e5bd500c330ab7db75
       state = true;
       break;
     case null:
@@ -750,37 +565,21 @@ function getLang(toggle) {
       break;
   }
   if (toggle) {
-<<<<<<< HEAD
     localStorage.setItem('state', !state);
     return !state;
   } else {
     localStorage.setItem('state', state);
-=======
-    localStorage.setItem("state", !state);
-    return !state;
-  } else {
-    localStorage.setItem("state", state);
->>>>>>> d69511793b5691513e4104e5bd500c330ab7db75
     return state;
   }
 }
 
 function isItalAlternated(toggle) {
-<<<<<<< HEAD
   let alt = localStorage.getItem('alt');
   switch (alt) {
     case 'false':
       alt = false;
       break;
     case 'true':
-=======
-  let alt = localStorage.getItem("alt");
-  switch (alt) {
-    case "false":
-      alt = false;
-      break;
-    case "true":
->>>>>>> d69511793b5691513e4104e5bd500c330ab7db75
       alt = true;
       break;
     case null:
@@ -788,27 +587,16 @@ function isItalAlternated(toggle) {
       break;
   }
   if (toggle) {
-<<<<<<< HEAD
     localStorage.setItem('alt', !alt);
     return !alt;
   } else {
     localStorage.setItem('alt', alt);
-=======
-    localStorage.setItem("alt", !alt);
-    return !alt;
-  } else {
-    localStorage.setItem("alt", alt);
->>>>>>> d69511793b5691513e4104e5bd500c330ab7db75
     return alt;
   }
 }
 
 function changeLang() {
-<<<<<<< HEAD
   if (isItShifted() && isItalAlternated()) {
-=======
-  if(isItShifted() && isItalAlternated()) {
->>>>>>> d69511793b5691513e4104e5bd500c330ab7db75
     renderKeyboard(true, false);
   }
 }
@@ -817,19 +605,11 @@ main.onkeyup = dimmer;
 function dimmer(e) {
   setTimeout(() => {
     let key = document.getElementById(e.code);
-<<<<<<< HEAD
     key.classList.toggle('highlight');
     if ((e.code === 'ShiftLeft') | (e.code === 'ShiftRight')) {
       renderKeyboard(false, true);
     }
     if (e.code === 'AltLeft') {
-=======
-    key.classList.toggle("highlight");
-    if ((e.code === "ShiftLeft") | (e.code === "ShiftRight")) {
-      renderKeyboard(false, true);
-    }
-    if (e.code === "AltLeft") {
->>>>>>> d69511793b5691513e4104e5bd500c330ab7db75
       isItalAlternated(true);
     }
   }, 0);
@@ -844,7 +624,6 @@ function handle(e) {
     if (e.code === 'CapsLock') {
       renderKeyboard(false, true);
     }
-<<<<<<< HEAD
     if (e.code === 'AltLeft') {
       isItalAlternated(true);
     }
@@ -854,18 +633,5 @@ function handle(e) {
     if ((e.code === 'ShiftLeft') | (e.code === 'ShiftRight')) {
       renderKeyboard(false, true);
     }
-=======
-    if (e.code === "AltLeft") {
-      isItalAlternated(true);
-    }
-    if (e.code === "ShiftLeft" | e.code === "AltLeft") {
-
-      changeLang();
-    }
-    if ((e.code === "ShiftLeft") | (e.code === "ShiftRight")) {
-      renderKeyboard(false, true);
-    }
-
->>>>>>> d69511793b5691513e4104e5bd500c330ab7db75
   }
 }
