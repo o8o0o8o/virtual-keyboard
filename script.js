@@ -1,200 +1,3 @@
-
-function renderKeyboard(toggleLang, shift) {
-  const text = document.getElementById('text') !== null
-    ? document.getElementById('text').value
-    : '';
-  const main = document.getElementById('main');
-  main.innerHTML = '';
-  const rows = [];
-  const textField = document.createElement('textarea');
-  textField.id = 'text';
-  textField.value = text;
-  textField.setAttribute('autofocus', 'autofocus');
-  main.appendChild(textField);
-  for (let i = 0; i < 5; i++) {
-    rows.push(document.createElement('div'));
-  }
-  const keys = keysGen();
-  let rowNumber = 0;
-  let rowWidth = 0;
-  let cent = 'central';
-  let lang = 'eng';
-  if (getLang(toggleLang)) {
-    lang = 'eng';
-  } else {
-    lang = 'rus';
-  }
-  if (isItShifted(shift)) {
-    cent = 'secondary';
-  } else {
-    cent = 'central';
-  }
-  for (const item in keys) {
-    const el = document.createElement('div');
-    el.setAttribute('onclick', 'handleClick(id)');
-    const central = document.createElement('span');
-    el.id = item;
-    central.classList.add('central');
-    central.innerHTML = keys[item][lang][cent];
-    el.setAttribute('data', keys[item][lang][cent]);
-    el.appendChild(central);
-    el.classList.add('box');
-    el.style.width = `${keys[item].weight * 50}px`;
-    rowWidth += keys[item].weight;
-    rows[rowNumber].appendChild(el);
-    if (rowWidth >= 15) {
-      ++rowNumber;
-      rowWidth = 0;
-    }
-  }
-  for (let i = 0; i < rows.length; i++) {
-    rows[i].classList.add('row');
-    main.appendChild(rows[i]);
-  }
-}
-
-function arrowHelper() {
-  text.focus();
-  const pos = text.selectionEnd;
-  let start = 0;
-  let end = 0;
-  let counter = pos;
-  if (text.value.charAt(pos) === '\n') {
-    counter = pos - 1;
-    end = pos;
-  } else {
-    end = text.value.indexOf('\n', pos) !== -1
-      ? text.value.indexOf('\n', pos) - 1
-      : text.value.length;
-  }
-  for (let i = counter; i >= 0; i--) {
-    if (text.value.charAt(i) === '\n') {
-      start = i + 1;
-      break;
-    } else {
-      start = i;
-    }
-  }
-  let line = 0;
-  for (let i = 0; i < pos; i++) {
-    if (text.value.charAt(i) === '\n') {
-      line++;
-    }
-  }
-  const index = pos - start;
-  const temp = text.value.split('\n');
-  const arr = [];
-  for (let i = 0; i < temp.length; i++) {
-    arr.push(temp[i].split(''));
-  }
-  return {
-    start,
-    pos,
-    end,
-    index,
-    arr,
-    line,
-  };
-}
-
-function handleClick(id) {
-  const button = document.getElementById(id);
-  const text = document.getElementById('text');
-  switch (id) {
-    case 'Backspace':
-      text.selectionStart !== text.selectionEnd
-        ? (text.value = text.value.substring(0, text.selectionStart)
-            + text.value.substring(text.selectionEnd + 1))
-        : (text.value = text.value.substring(0, text.selectionEnd - 1)
-            + text.value.substring(text.selectionEnd));
-      break;
-    case 'Tab':
-      text.value += '        ';
-      break;
-    case 'Enter':
-      text.value += '\n';
-      break;
-    case 'Delete':
-      text.value = text.value.substring(0, text.selectionStart)
-        + text.value.substring(text.selectionEnd + 1);
-      break;
-    case 'ArrowUp':
-      {
-        const { start } = arrowHelper();
-        const { pos } = arrowHelper();
-        const { end } = arrowHelper();
-        const { line } = arrowHelper();
-        const { arr } = arrowHelper();
-        const { index } = arrowHelper();
-        let calcPos = 0;
-        for (let i = 0; i < line - 1; i++) {
-          calcPos += arr[i].length + 1;
-        }
-        if (arr[line - 1].length < index) {
-          calcPos += arr[line - 1].length;
-        } else {
-          calcPos += index;
-        }
-        text.selectionStart = calcPos;
-        text.selectionEnd = calcPos;
-      }
-      break;
-    case 'ArrowLeft':
-      {
-        text.focus();
-        text.selectionStart -= 1;
-        text.selectionEnd -= 1;
-      }
-      break;
-    case 'ArrowDown':
-      {
-        const { start } = arrowHelper();
-        const { pos } = arrowHelper();
-        const { end } = arrowHelper();
-        const { line } = arrowHelper();
-        const { arr } = arrowHelper();
-        const { index } = arrowHelper();
-        let calcPos = 0;
-        for (let i = 0; i < line + 1; i++) {
-          calcPos += arr[i].length + 1;
-        }
-        if (arr[line + 1].length < index) {
-          calcPos += arr[line + 1].length;
-        } else {
-          calcPos += index;
-        }
-        text.selectionStart = calcPos;
-        text.selectionEnd = calcPos;
-      }
-      break;
-    case 'ArrowRight':
-      {
-        text.focus();
-        text.selectionStart += 1;
-        text.selectionEnd += 1;
-      }
-      break;
-    case 'CapsLock':
-    case 'ShiftLeft':
-    case 'ControlLeft':
-    case 'AltLeft':
-    case 'MetaLeft':
-    case 'ControlRight':
-    case 'ShiftRight':
-    case 'AltRight':
-      break;
-    default:
-      text.value += button.getAttribute('data');
-      break;
-  }
-  text.setAttribute('autofocus', 'autofocus');
-  button.classList.toggle('highlight');
-  setTimeout(() => {
-    const button = document.getElementById(id);
-    button.classList.toggle('highlight');
-  }, 100);
-}
-
 function keysGen() {
   return {
     Backquote: {
@@ -529,7 +332,7 @@ function isItShifted(toggle) {
     case 'true':
       shift = true;
       break;
-    case null:
+    default:
       shift = false;
       break;
   }
@@ -550,7 +353,7 @@ function getLang(toggle) {
     case 'true':
       state = true;
       break;
-    case null:
+    default:
       state = true;
       break;
   }
@@ -562,6 +365,192 @@ function getLang(toggle) {
   return state;
 }
 
+function renderKeyboard(toggleLang, shift) {
+  const text = document.getElementById('text') !== null
+    ? document.getElementById('text').value
+    : '';
+  const main = document.getElementById('main');
+  main.innerHTML = '';
+  const rows = [];
+  const textField = document.createElement('textarea');
+  textField.id = 'text';
+  textField.value = text;
+  textField.setAttribute('autofocus', 'autofocus');
+  main.appendChild(textField);
+  for (let i = 0; i < 5; i++) {
+    rows.push(document.createElement('div'));
+  }
+  const keys = keysGen();
+  let rowNumber = 0;
+  let rowWidth = 0;
+  let cent = 'central';
+  let lang = 'eng';
+  if (getLang(toggleLang)) {
+    lang = 'eng';
+  } else {
+    lang = 'rus';
+  }
+  if (isItShifted(shift)) {
+    cent = 'secondary';
+  } else {
+    cent = 'central';
+  }
+  for (const item in keys) {
+    const el = document.createElement('div');
+    el.setAttribute('onclick', 'handleClick(id)');
+    const central = document.createElement('span');
+    el.id = item;
+    central.classList.add('central');
+    central.innerHTML = keys[item][lang][cent];
+    el.setAttribute('data', keys[item][lang][cent]);
+    el.appendChild(central);
+    el.classList.add('box');
+    el.style.width = `${keys[item].weight * 50}px`;
+    rowWidth += keys[item].weight;
+    rows[rowNumber].appendChild(el);
+    if (rowWidth >= 15) {
+      ++rowNumber;
+      rowWidth = 0;
+    }
+  }
+  for (let i = 0; i < rows.length; i++) {
+    rows[i].classList.add('row');
+    main.appendChild(rows[i]);
+  }
+}
+
+function arrowHelper() {
+  const text = document.getElementById('text');
+  text.focus();
+  const pos = text.selectionEnd;
+  let start = 0;
+  let end = 0;
+  let counter = pos;
+  if (text.value.charAt(pos) === '\n') {
+    counter = pos - 1;
+    end = pos;
+  } else {
+    end = text.value.indexOf('\n', pos) !== -1
+      ? text.value.indexOf('\n', pos) - 1
+      : text.value.length;
+  }
+  for (let i = counter; i >= 0; i--) {
+    if (text.value.charAt(i) === '\n') {
+      start = i + 1;
+      break;
+    } else {
+      start = i;
+    }
+  }
+  let line = 0;
+  for (let i = 0; i < pos; i++) {
+    if (text.value.charAt(i) === '\n') {
+      line++;
+    }
+  }
+  const index = pos - start;
+  const temp = text.value.split('\n');
+  const arr = [];
+  for (let i = 0; i < temp.length; i++) {
+    arr.push(temp[i].split(''));
+  }
+  return {
+    start,
+    pos,
+    end,
+    index,
+    arr,
+    line,
+  };
+}
+
+function handleClick(id) {
+  const button = document.getElementById(id);
+  const text = document.getElementById('text');
+  switch (id) {
+    case 'Backspace':
+      text.selectionStart !== text.selectionEnd
+        ? (text.value = text.value.substring(0, text.selectionStart)
+            + text.value.substring(text.selectionEnd + 1))
+        : (text.value = text.value.substring(0, text.selectionEnd - 1)
+            + text.value.substring(text.selectionEnd));
+      break;
+    case 'Tab':
+      text.value += '        ';
+      break;
+    case 'Enter':
+      text.value += '\n';
+      break;
+    case 'Delete':
+      text.value = text.value.substring(0, text.selectionStart)
+        + text.value.substring(text.selectionEnd + 1);
+      break;
+    case 'ArrowUp':
+      {
+        const { line } = arrowHelper();
+        const { arr } = arrowHelper();
+        const { index } = arrowHelper();
+        let calcPos = 0;
+        for (let i = 0; i < line - 1; i++) {
+          calcPos += arr[i].length + 1;
+        }
+        if (arr[line - 1].length < index) {
+          calcPos += arr[line - 1].length;
+        } else {
+          calcPos += index;
+        }
+        text.selectionStart = calcPos;
+        text.selectionEnd = calcPos;
+      }
+      break;
+    case 'ArrowLeft':
+      text.focus();
+      text.selectionStart -= 1;
+      text.selectionEnd -= 1;
+      break;
+    case 'ArrowDown':
+      {
+        const { line } = arrowHelper();
+        const { arr } = arrowHelper();
+        const { index } = arrowHelper();
+        let calcPos = 0;
+        for (let i = 0; i < line + 1; i++) {
+          calcPos += arr[i].length + 1;
+        }
+        if (arr[line + 1].length < index) {
+          calcPos += arr[line + 1].length;
+        } else {
+          calcPos += index;
+        }
+        text.selectionStart = calcPos;
+        text.selectionEnd = calcPos;
+      }
+      break;
+    case 'ArrowRight':
+      text.focus();
+      text.selectionStart += 1;
+      text.selectionEnd += 1;
+      break;
+    case 'CapsLock':
+    case 'ShiftLeft':
+    case 'ControlLeft':
+    case 'AltLeft':
+    case 'MetaLeft':
+    case 'ControlRight':
+    case 'ShiftRight':
+    case 'AltRight':
+      break;
+    default:
+      text.value += button.getAttribute('data');
+      break;
+  }
+  text.setAttribute('autofocus', 'autofocus');
+  button.classList.toggle('highlight');
+  setTimeout(() => {
+    button.classList.toggle('highlight');
+  }, 100);
+}
+
 function isItalAlternated(toggle) {
   let alt = localStorage.getItem('alt');
   switch (alt) {
@@ -571,7 +560,7 @@ function isItalAlternated(toggle) {
     case 'true':
       alt = true;
       break;
-    case null:
+    default:
       alt = false;
       break;
   }
@@ -601,6 +590,8 @@ function dimmer(e) {
     }
   }, 0);
 }
+
+const main = document.getElementById('main');
 
 main.onkeyup = dimmer;
 
