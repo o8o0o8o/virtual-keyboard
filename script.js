@@ -377,7 +377,7 @@ function renderKeyboard(toggleLang, shift) {
   textField.value = text;
   textField.setAttribute('autofocus', 'autofocus');
   main.appendChild(textField);
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 5; i += 1) {
     rows.push(document.createElement('div'));
   }
   const keys = keysGen();
@@ -409,11 +409,11 @@ function renderKeyboard(toggleLang, shift) {
     rowWidth += keys[item].weight;
     rows[rowNumber].appendChild(el);
     if (rowWidth >= 15) {
-      ++rowNumber;
+      rowNumber += 1;
       rowWidth = 0;
     }
   }
-  for (let i = 0; i < rows.length; i++) {
+  for (let i = 0; i < rows.length; i += 1) {
     rows[i].classList.add('row');
     main.appendChild(rows[i]);
   }
@@ -434,7 +434,7 @@ function arrowHelper() {
       ? text.value.indexOf('\n', pos) - 1
       : text.value.length;
   }
-  for (let i = counter; i >= 0; i--) {
+  for (let i = counter; i >= 0; i -= 1) {
     if (text.value.charAt(i) === '\n') {
       start = i + 1;
       break;
@@ -443,15 +443,15 @@ function arrowHelper() {
     }
   }
   let line = 0;
-  for (let i = 0; i < pos; i++) {
+  for (let i = 0; i < pos; i += 1) {
     if (text.value.charAt(i) === '\n') {
-      line++;
+      line += 1;
     }
   }
   const index = pos - start;
   const temp = text.value.split('\n');
   const arr = [];
-  for (let i = 0; i < temp.length; i++) {
+  for (let i = 0; i < temp.length; i += 1) {
     arr.push(temp[i].split(''));
   }
   return {
@@ -469,10 +469,10 @@ function handleClick(id) {
   const text = document.getElementById('text');
   switch (id) {
     case 'Backspace':
-      text.selectionStart !== text.selectionEnd
-        ? (text.value = text.value.substring(0, text.selectionStart)
+      text.value = text.selectionStart !== text.selectionEnd
+        ? (text.value.substring(0, text.selectionStart)
             + text.value.substring(text.selectionEnd + 1))
-        : (text.value = text.value.substring(0, text.selectionEnd - 1)
+        : (text.value.substring(0, text.selectionEnd - 1)
             + text.value.substring(text.selectionEnd));
       break;
     case 'Tab':
@@ -491,7 +491,7 @@ function handleClick(id) {
         const { arr } = arrowHelper();
         const { index } = arrowHelper();
         let calcPos = 0;
-        for (let i = 0; i < line - 1; i++) {
+        for (let i = 0; i < line - 1; i += 1) {
           calcPos += arr[i].length + 1;
         }
         if (arr[line - 1].length < index) {
@@ -514,7 +514,7 @@ function handleClick(id) {
         const { arr } = arrowHelper();
         const { index } = arrowHelper();
         let calcPos = 0;
-        for (let i = 0; i < line + 1; i++) {
+        for (let i = 0; i < line + 1; i += 1) {
           calcPos += arr[i].length + 1;
         }
         if (arr[line + 1].length < index) {
