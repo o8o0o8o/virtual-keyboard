@@ -365,60 +365,6 @@ function getLang(toggle) {
   return state;
 }
 
-function renderKeyboard(toggleLang, shift) {
-  const text = document.getElementById('text') !== null
-    ? document.getElementById('text').value
-    : '';
-  const main = document.getElementById('main');
-  main.innerHTML = '';
-  const rows = [];
-  const textField = document.createElement('textarea');
-  textField.id = 'text';
-  textField.value = text;
-  textField.setAttribute('autofocus', 'autofocus');
-  main.appendChild(textField);
-  for (let i = 0; i < 5; i += 1) {
-    rows.push(document.createElement('div'));
-  }
-  const keys = keysGen();
-  let rowNumber = 0;
-  let rowWidth = 0;
-  let cent = 'central';
-  let lang = 'eng';
-  if (getLang(toggleLang)) {
-    lang = 'eng';
-  } else {
-    lang = 'rus';
-  }
-  if (isItShifted(shift)) {
-    cent = 'secondary';
-  } else {
-    cent = 'central';
-  }
-  for (const item in keys) {
-    const el = document.createElement('div');
-    el.setAttribute('onclick', 'handleClick(id)');
-    const central = document.createElement('span');
-    el.id = item;
-    central.classList.add('central');
-    central.innerHTML = keys[item][lang][cent];
-    el.setAttribute('data', keys[item][lang][cent]);
-    el.appendChild(central);
-    el.classList.add('box');
-    el.style.width = `${keys[item].weight * 50}px`;
-    rowWidth += keys[item].weight;
-    rows[rowNumber].appendChild(el);
-    if (rowWidth >= 15) {
-      rowNumber += 1;
-      rowWidth = 0;
-    }
-  }
-  for (let i = 0; i < rows.length; i += 1) {
-    rows[i].classList.add('row');
-    main.appendChild(rows[i]);
-  }
-}
-
 function arrowHelper() {
   const text = document.getElementById('text');
   text.focus();
@@ -464,91 +410,146 @@ function arrowHelper() {
   };
 }
 
-function handleClick(id) {
-  const button = document.getElementById(id);
-  const text = document.getElementById('text');
-  switch (id) {
-    case 'Backspace':
-      text.value = text.selectionStart !== text.selectionEnd
-        ? (text.value.substring(0, text.selectionStart)
-            + text.value.substring(text.selectionEnd + 1))
-        : (text.value.substring(0, text.selectionEnd - 1)
-            + text.value.substring(text.selectionEnd));
-      break;
-    case 'Tab':
-      text.value += '        ';
-      break;
-    case 'Enter':
-      text.value += '\n';
-      break;
-    case 'Delete':
-      text.value = text.value.substring(0, text.selectionStart)
-        + text.value.substring(text.selectionEnd + 1);
-      break;
-    case 'ArrowUp':
-      {
-        const { line } = arrowHelper();
-        const { arr } = arrowHelper();
-        const { index } = arrowHelper();
-        let calcPos = 0;
-        for (let i = 0; i < line - 1; i += 1) {
-          calcPos += arr[i].length + 1;
-        }
-        if (arr[line - 1].length < index) {
-          calcPos += arr[line - 1].length;
-        } else {
-          calcPos += index;
-        }
-        text.selectionStart = calcPos;
-        text.selectionEnd = calcPos;
-      }
-      break;
-    case 'ArrowLeft':
-      text.focus();
-      text.selectionStart -= 1;
-      text.selectionEnd -= 1;
-      break;
-    case 'ArrowDown':
-      {
-        const { line } = arrowHelper();
-        const { arr } = arrowHelper();
-        const { index } = arrowHelper();
-        let calcPos = 0;
-        for (let i = 0; i < line + 1; i += 1) {
-          calcPos += arr[i].length + 1;
-        }
-        if (arr[line + 1].length < index) {
-          calcPos += arr[line + 1].length;
-        } else {
-          calcPos += index;
-        }
-        text.selectionStart = calcPos;
-        text.selectionEnd = calcPos;
-      }
-      break;
-    case 'ArrowRight':
-      text.focus();
-      text.selectionStart += 1;
-      text.selectionEnd += 1;
-      break;
-    case 'CapsLock':
-    case 'ShiftLeft':
-    case 'ControlLeft':
-    case 'AltLeft':
-    case 'MetaLeft':
-    case 'ControlRight':
-    case 'ShiftRight':
-    case 'AltRight':
-      break;
-    default:
-      text.value += button.getAttribute('data');
-      break;
+function renderKeyboard(toggleLang, shift) {
+  const text = document.getElementById('text') !== null
+    ? document.getElementById('text').value
+    : '';
+  const main = document.getElementById('main');
+  main.innerHTML = '';
+  const rows = [];
+  const textField = document.createElement('textarea');
+  textField.id = 'text';
+  textField.value = text;
+  textField.setAttribute('autofocus', 'autofocus');
+  main.appendChild(textField);
+  for (let i = 0; i < 5; i += 1) {
+    rows.push(document.createElement('div'));
   }
-  text.setAttribute('autofocus', 'autofocus');
-  button.classList.toggle('highlight');
-  setTimeout(() => {
-    button.classList.toggle('highlight');
-  }, 100);
+  const keys = keysGen();
+  let rowNumber = 0;
+  let rowWidth = 0;
+  let cent = 'central';
+  let lang = 'eng';
+  if (getLang(toggleLang)) {
+    lang = 'eng';
+  } else {
+    lang = 'rus';
+  }
+  if (isItShifted(shift)) {
+    cent = 'secondary';
+  } else {
+    cent = 'central';
+  }
+  for (const item in keys) {
+    const el = document.createElement('div');
+    const central = document.createElement('span');
+    el.id = item;
+    el.classList.add(item);
+    central.classList.add(item);
+    el.onclick = function handleClick(e) {
+      const id = e.target.getAttribute('class').split(' ')[0];
+      const button = document.getElementById(id);
+      switch (id) {
+        case 'Backspace':
+          textField.value = textField.selectionStart !== textField.selectionEnd
+            ? (textField.value.substring(0, textField.selectionStart)
+                + textField.value.substring(textField.selectionEnd + 1))
+            : (textField.value.substring(0, textField.selectionEnd - 1)
+                + textField.value.substring(textField.selectionEnd));
+          break;
+        case 'Tab':
+          textField.value += '        ';
+          break;
+        case 'Enter':
+          textField.value += '\n';
+          break;
+        case 'Delete':
+          textField.value = textField.value.substring(0, textField.selectionStart)
+            + textField.value.substring(textField.selectionEnd + 1);
+          break;
+        case 'ArrowUp':
+          {
+            const { line } = arrowHelper();
+            const { arr } = arrowHelper();
+            const { index } = arrowHelper();
+            let calcPos = 0;
+            for (let i = 0; i < line - 1; i += 1) {
+              calcPos += arr[i].length + 1;
+            }
+            if (arr[line - 1].length < index) {
+              calcPos += arr[line - 1].length;
+            } else {
+              calcPos += index;
+            }
+            textField.selectionStart = calcPos;
+            textField.selectionEnd = calcPos;
+          }
+          break;
+        case 'ArrowLeft':
+          textField.focus();
+          textField.selectionStart -= 1;
+          textField.selectionEnd -= 1;
+          break;
+        case 'ArrowDown':
+          {
+            const { line } = arrowHelper();
+            const { arr } = arrowHelper();
+            const { index } = arrowHelper();
+            let calcPos = 0;
+            for (let i = 0; i < line + 1; i += 1) {
+              calcPos += arr[i].length + 1;
+            }
+            if (arr[line + 1].length < index) {
+              calcPos += arr[line + 1].length;
+            } else {
+              calcPos += index;
+            }
+            textField.selectionStart = calcPos;
+            textField.selectionEnd = calcPos;
+          }
+          break;
+        case 'ArrowRight':
+          textField.focus();
+          textField.selectionStart += 1;
+          textField.selectionEnd += 1;
+          break;
+        case 'CapsLock': renderKeyboard(false, true);
+          break;
+        case 'ShiftLeft':
+        case 'ControlLeft':
+        case 'AltLeft':
+        case 'MetaLeft':
+        case 'ControlRight':
+        case 'ShiftRight':
+        case 'AltRight':
+          break;
+        default:
+          textField.value += button.getAttribute('data');
+          break;
+      }
+      textField.setAttribute('autofocus', 'autofocus');
+      button.classList.toggle('highlight');
+      setTimeout(() => {
+        button.classList.toggle('highlight');
+      }, 100);
+    };
+    central.classList.add('central');
+    central.innerHTML = keys[item][lang][cent];
+    el.setAttribute('data', keys[item][lang][cent]);
+    el.appendChild(central);
+    el.classList.add('box');
+    el.style.width = `${keys[item].weight * 50}px`;
+    rowWidth += keys[item].weight;
+    rows[rowNumber].appendChild(el);
+    if (rowWidth >= 15) {
+      rowNumber += 1;
+      rowWidth = 0;
+    }
+  }
+  for (let i = 0; i < rows.length; i += 1) {
+    rows[i].classList.add('row');
+    main.appendChild(rows[i]);
+  }
 }
 
 function isItalAlternated(toggle) {
