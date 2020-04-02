@@ -410,6 +410,23 @@ function arrowHelper() {
   };
 }
 
+function highlight(e, el) {
+  let id = '';
+  if (el !== undefined) {
+    id = el;
+  } else {
+    id = e.code;
+  }
+  setTimeout(() => {
+    const key = document.getElementById(id);
+    key.classList.toggle('highlight');
+  }, 0);
+  setTimeout(() => {
+    const key = document.getElementById(id);
+    key.classList.toggle('highlight');
+  }, 200);
+}
+
 function renderKeyboard(toggleLang, shift) {
   const text = document.getElementById('text') !== null
     ? document.getElementById('text').value
@@ -420,6 +437,7 @@ function renderKeyboard(toggleLang, shift) {
   const textField = document.createElement('textarea');
   textField.id = 'text';
   textField.value = text;
+  textField.placeholder = 'This keyboard was implemented for Windows 10 and Google Chrome.\nShft + Alt to change layout.';
   textField.setAttribute('autofocus', 'autofocus');
   main.appendChild(textField);
   for (let i = 0; i < 5; i += 1) {
@@ -447,9 +465,13 @@ function renderKeyboard(toggleLang, shift) {
     el.id = arrKeys[j];
     el.classList.add(arrKeys[j]);
     central.classList.add(arrKeys[j]);
-    el.onclick = function handleClick(e) {
+    el.onmousedown = function handleClick(e) {
       const id = e.target.getAttribute('class').split(' ')[0];
       const button = document.getElementById(id);
+      button.classList.toggle('highlight');
+      setTimeout(() => {
+        button.classList.toggle('highlight');
+      }, 200);
       switch (id) {
         case 'Backspace':
           textField.value = textField.selectionStart !== textField.selectionEnd
@@ -514,14 +536,19 @@ function renderKeyboard(toggleLang, shift) {
           textField.selectionStart += 1;
           textField.selectionEnd += 1;
           break;
-        case 'CapsLock': renderKeyboard(false, true);
+        case 'CapsLock':
+          renderKeyboard(false, true);
+          highlight(id, id);
           break;
         case 'ShiftLeft':
+          renderKeyboard(false, true);
+          break;
         case 'ControlLeft':
         case 'AltLeft':
         case 'MetaLeft':
         case 'ControlRight':
-        case 'ShiftRight':
+        case 'ShiftRight':// renderKeyboard(false, true, button);
+          break;
         case 'AltRight':
           break;
         default:
@@ -529,10 +556,6 @@ function renderKeyboard(toggleLang, shift) {
           break;
       }
       textField.setAttribute('autofocus', 'autofocus');
-      button.classList.toggle('highlight');
-      setTimeout(() => {
-        button.classList.toggle('highlight');
-      }, 100);
     };
     central.classList.add('central');
     central.innerHTML = keys[arrKeys[j]][lang][cent];
@@ -582,8 +605,6 @@ function changeLang() {
 
 function dimmer(e) {
   setTimeout(() => {
-    const key = document.getElementById(e.code);
-    key.classList.toggle('highlight');
     if ((e.code === 'ShiftLeft') || (e.code === 'ShiftRight')) {
       renderKeyboard(false, true);
     }
@@ -593,15 +614,16 @@ function dimmer(e) {
   }, 0);
 }
 
+document.body = document.createElement('body');
+document.body.id = 'main';
 const main = document.getElementById('main');
+main.onload = renderKeyboard(false, false);
 
 main.onkeyup = dimmer;
 
 function handle(e) {
   const keys = keysGen();
   if (keys[e.code] !== undefined) {
-    const key = document.getElementById(e.code);
-    key.classList.add('highlight');
     if (e.code === 'CapsLock') {
       renderKeyboard(false, true);
     }
@@ -615,6 +637,7 @@ function handle(e) {
       renderKeyboard(false, true);
     }
   }
+  highlight(e);
 }
 
 main.onkeydown = handle;

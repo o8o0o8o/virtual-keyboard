@@ -1,4 +1,4 @@
-.main {
+#main {
   margin-left: 25%;
 }
 
@@ -37,4 +37,13 @@
 
 .highlight {
   background-color: brown;
+}
+
+.OS {
+  position: top;
+  top: 100px;
+  left: 90px;
+  color: black;
+  font-size: 204px;
+  cursor: default;
 }
