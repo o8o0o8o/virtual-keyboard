@@ -440,12 +440,13 @@ function renderKeyboard(toggleLang, shift) {
   } else {
     cent = 'central';
   }
-  for (const item in keys) {
+  const arrKeys = Object.keys(keys);
+  for (let j = 0; j < arrKeys.length; j += 1) {
     const el = document.createElement('div');
     const central = document.createElement('span');
-    el.id = item;
-    el.classList.add(item);
-    central.classList.add(item);
+    el.id = arrKeys[j];
+    el.classList.add(arrKeys[j]);
+    central.classList.add(arrKeys[j]);
     el.onclick = function handleClick(e) {
       const id = e.target.getAttribute('class').split(' ')[0];
       const button = document.getElementById(id);
@@ -534,12 +535,12 @@ function renderKeyboard(toggleLang, shift) {
       }, 100);
     };
     central.classList.add('central');
-    central.innerHTML = keys[item][lang][cent];
-    el.setAttribute('data', keys[item][lang][cent]);
+    central.innerHTML = keys[arrKeys[j]][lang][cent];
+    el.setAttribute('data', keys[arrKeys[j]][lang][cent]);
     el.appendChild(central);
     el.classList.add('box');
-    el.style.width = `${keys[item].weight * 50}px`;
-    rowWidth += keys[item].weight;
+    el.style.width = `${keys[arrKeys[j]].weight * 50}px`;
+    rowWidth += keys[arrKeys[j]].weight;
     rows[rowNumber].appendChild(el);
     if (rowWidth >= 15) {
       rowNumber += 1;
