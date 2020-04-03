@@ -549,9 +549,13 @@ function renderKeyboard(toggleLang, shift) {
           renderKeyboard(false, true);
           break;
         case "ControlLeft":
+          break;
         case "AltLeft":
+          break;
         case "MetaLeft":
+          break;
         case "ControlRight":
+          break;
         case "ShiftRight":
           renderKeyboard(false, true, button);
           break;
