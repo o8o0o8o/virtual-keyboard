@@ -540,16 +540,22 @@ function renderKeyboard(toggleLang, shift) {
           renderKeyboard(false, true);
           main.onmouseup = function leftShift() {
             renderKeyboard(false, true);
+            main.onmouseup = '';
           };
           break;
         case 'ControlLeft':
+          break;
         case 'AltLeft':
+          break;
         case 'MetaLeft':
+          break;
         case 'ControlRight':
+          break;
         case 'ShiftRight':
           renderKeyboard(false, true);
           main.onmouseup = function rightShift() {
             renderKeyboard(false, true);
+            main.onmouseup = '';
           };
           break;
         case 'AltRight':
