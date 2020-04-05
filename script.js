@@ -418,12 +418,12 @@ function highlight(e, el) {
   }
   setTimeout(() => {
     const key = document.getElementById(id);
-    key.classList.toggle('highlight');
+    key.classList.add('highlight');
   }, 0);
   setTimeout(() => {
     const key = document.getElementById(id);
-    key.classList.toggle('highlight');
-  }, 200);
+    key.classList.remove('highlight');
+  }, 100);
 }
 
 function renderKeyboard(toggleLang, shift) {
@@ -468,10 +468,7 @@ function renderKeyboard(toggleLang, shift) {
       e.preventDefault();
       const id = e.target.getAttribute('class').split(' ')[0];
       const button = document.getElementById(id);
-      button.classList.toggle('highlight');
-      setTimeout(() => {
-        button.classList.toggle('highlight');
-      }, 200);
+      highlight(id, id);
       switch (id) {
         case 'Backspace':
           textField.value = textField.selectionStart !== textField.selectionEnd
@@ -539,13 +536,21 @@ function renderKeyboard(toggleLang, shift) {
           highlight(id, id);
           break;
         case 'ShiftLeft':
+          button.classList.add('highlight');
           renderKeyboard(false, true);
+          main.onmouseup = function leftShift() {
+            renderKeyboard(false, true);
+          };
           break;
         case 'ControlLeft':
         case 'AltLeft':
         case 'MetaLeft':
         case 'ControlRight':
-        case 'ShiftRight':// renderKeyboard(false, true, button);
+        case 'ShiftRight':
+          renderKeyboard(false, true);
+          main.onmouseup = function rightShift() {
+            renderKeyboard(false, true);
+          };
           break;
         case 'AltRight':
           break;
