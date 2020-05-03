@@ -419,11 +419,15 @@ function highlight(e, el) {
   }
   setTimeout(() => {
     const key = document.getElementById(id);
-    key.classList.toggle('highlight');
+    if (key !== null) {
+      key.classList.toggle('highlight');
+    }
   }, 0);
   setTimeout(() => {
     const key = document.getElementById(id);
-    key.classList.toggle('highlight');
+    if (key !== null) {
+      key.classList.toggle('highlight');
+    }
   }, 400);
 }
 
