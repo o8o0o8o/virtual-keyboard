@@ -419,27 +419,23 @@ function highlight(e, el) {
   }
   setTimeout(() => {
     const key = document.getElementById(id);
-    key.classList.toggle('highlight');
+    if (key !== null) {
+      key.classList.toggle('highlight');
+    }
   }, 0);
   setTimeout(() => {
     const key = document.getElementById(id);
-    key.classList.toggle('highlight');
-  }, 200);
+    if (key !== null) {
+      key.classList.toggle('highlight');
+    }
+  }, 400);
 }
 
 function renderKeyboard(toggleLang, shift) {
-  const text = document.getElementById('text') !== null
-    ? document.getElementById('text').value
-    : '';
-  const main = document.getElementById('main');
-  main.innerHTML = '';
+  const textField = document.getElementById('text');
+  const keyboard = document.getElementById('keyboard');
+  keyboard.innerHTML = '';
   const rows = [];
-  const textField = document.createElement('textarea');
-  textField.id = 'text';
-  textField.value = text;
-  textField.placeholder = 'This keyboard was implemented for Windows 10 and Google Chrome.\nShft + Alt to change layout.';
-  textField.setAttribute('autofocus', 'autofocus');
-  main.appendChild(textField);
   for (let i = 0; i < 5; i += 1) {
     rows.push(document.createElement('div'));
   }
@@ -471,14 +467,14 @@ function renderKeyboard(toggleLang, shift) {
       button.classList.toggle('highlight');
       setTimeout(() => {
         button.classList.toggle('highlight');
-      }, 200);
+      }, 400);
       switch (id) {
         case 'Backspace':
           textField.value = textField.selectionStart !== textField.selectionEnd
-            ? (textField.value.substring(0, textField.selectionStart)
-                + textField.value.substring(textField.selectionEnd + 1))
-            : (textField.value.substring(0, textField.selectionEnd - 1)
-                + textField.value.substring(textField.selectionEnd));
+            ? textField.value.substring(0, textField.selectionStart)
+                + textField.value.substring(textField.selectionEnd + 1)
+            : textField.value.substring(0, textField.selectionEnd - 1)
+                + textField.value.substring(textField.selectionEnd);
           break;
         case 'Tab':
           textField.value += '        ';
@@ -547,7 +543,7 @@ function renderKeyboard(toggleLang, shift) {
         case 'AltLeft':
         case 'MetaLeft':
         case 'ControlRight':
-        case 'ShiftRight':// renderKeyboard(false, true, button);
+        case 'ShiftRight': // renderKeyboard(false, true, button);
           break;
         case 'AltRight':
           break;
@@ -555,7 +551,7 @@ function renderKeyboard(toggleLang, shift) {
           textField.value += button.getAttribute('data');
           break;
       }
-      textField.setAttribute('autofocus', 'autofocus');
+      // textField.setAttribute('autofocus', 'autofocus');
     };
     central.classList.add('central');
     central.innerHTML = keys[arrKeys[j]][lang][cent];
@@ -572,8 +568,22 @@ function renderKeyboard(toggleLang, shift) {
   }
   for (let i = 0; i < rows.length; i += 1) {
     rows[i].classList.add('row');
-    main.appendChild(rows[i]);
+    keyboard.appendChild(rows[i]);
   }
+}
+
+function initial() {
+  const main = document.getElementById('main');
+  const textField = document.createElement('textarea');
+  const keyboard = document.createElement('div');
+  keyboard.id = 'keyboard';
+  textField.id = 'text';
+  textField.placeholder = 'This keyboard was implemented for Windows 10 and Google Chrome.\nShft + Alt to change layout.';
+  textField.setAttribute('autofocus', 'autofocus');
+  textField.setAttribute('onblur', 'this.focus()');
+  main.appendChild(textField);
+  main.appendChild(keyboard);
+  renderKeyboard(false, false);
 }
 
 function isItalAlternated(toggle) {
@@ -605,7 +615,7 @@ function changeLang() {
 
 function dimmer(e) {
   setTimeout(() => {
-    if ((e.code === 'ShiftLeft') || (e.code === 'ShiftRight')) {
+    if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
       renderKeyboard(false, true);
     }
     if (e.code === 'AltLeft') {
@@ -617,7 +627,7 @@ function dimmer(e) {
 document.body = document.createElement('body');
 document.body.id = 'main';
 const main = document.getElementById('main');
-main.onload = renderKeyboard(false, false);
+main.onload = initial();
 
 main.onkeyup = dimmer;
 
@@ -630,10 +640,10 @@ function handle(e) {
     if (e.code === 'AltLeft') {
       isItalAlternated(true);
     }
-    if ((e.code === 'ShiftLeft') || (e.code === 'AltLeft')) {
+    if (e.code === 'ShiftLeft' || e.code === 'AltLeft') {
       changeLang();
     }
-    if ((e.code === 'ShiftLeft') || (e.code === 'ShiftRight')) {
+    if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
       renderKeyboard(false, true);
     }
   }
